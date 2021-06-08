@@ -1,24 +1,7 @@
 import * as React from 'react'
 
 import { validators } from '../utils/validators'
-
-interface IFormContext {
-    fields: any
-    errors: any
-    setField?: (event: React.FormEvent, metadata: any) => void
-    addField?: (data: any) => void
-    validateField?: (name: string) => void
-}
-
-interface IFormState {
-    fields: any
-    errors: any
-}
-
-interface IFormProps {
-    onFinish: (values: any) => void
-    onError: (err: any) => void
-}
+import { IField, IFormContext, IFormProps, IFormState } from './interfaces/form'
 
 export const FormContext: React.Context<IFormContext> = React.createContext({
     fields: {},
@@ -38,15 +21,13 @@ class Form extends React.Component<IFormProps> {
         const field = fields[name]
 
         this.addField({
-            field: {
-                ...field,
-                // @ts-ignore
-                value: event ? event.currentTarget.value : value
-            }
+            ...field,
+            // @ts-ignore - sorry TypeScript Gods
+            value: event ? event.currentTarget.value : value
         })
     }
 
-    public addField = ({ field }) => {
+    public addField = (field: IField) => {
         const { name } = field
 
         field = {
@@ -82,7 +63,7 @@ class Form extends React.Component<IFormProps> {
         const rules = validate ? validate.split('|') : ''
 
         if (rules.length) {
-            for (const rule in rules) {
+            for (const rule in rules as any) {
                 const ruleName = rules[rule]
                 const validation = validators[ruleName] || customRules[ruleName]
                 const isRuleSatisfied =
@@ -91,9 +72,7 @@ class Form extends React.Component<IFormProps> {
                         : validation.rule().test(fieldValue.toString())
 
                 if (!isRuleSatisfied) {
-                    error = validation.formatter.apply(null, [
-                        displayName || name
-                    ])
+                    error = validation.formatter(displayName || name)
                 }
 
                 if (error !== '') {
@@ -111,8 +90,23 @@ class Form extends React.Component<IFormProps> {
         }
     }
 
+    private getFieldErrors = () => {
+        return Object.values(this.state.errors).some((val) => val !== '')
+    }
+
+    private getFieldValues = () => {
+        return Object.entries(this.state.fields).reduce(
+            (acc: any, curr: any) => {
+                acc = { ...acc, [curr[0]]: curr[1].value }
+                return acc
+            },
+            {}
+        )
+    }
+
     render() {
         const { fields, errors } = this.state
+        const { onFinish, onError } = this.props
 
         const formContext: IFormContext = {
             fields,
@@ -122,23 +116,20 @@ class Form extends React.Component<IFormProps> {
             validateField: this.validateField
         }
 
-        const values = Object.entries(fields).reduce((acc: any, curr: any) => {
-            acc = { ...acc, [curr[0]]: curr[1].value }
-            return acc
-        }, {})
-
-        const fieldErrors = Object.values(errors).some((val) => val !== '')
-
         return (
             <FormContext.Provider value={formContext}>
                 <form
                     onSubmit={(event) => {
                         event.preventDefault()
-                        if (fieldErrors) {
-                            this.props.onError(errors)
+                        Object.keys(this.getFieldValues()).forEach((key) => {
+                            this.validateField(key)
+                        })
+                        if (this.getFieldErrors()) {
+                            onError(errors)
                             return
                         }
-                        this.props.onFinish(values)
+                        onFinish(this.getFieldValues())
+                        return
                     }}
                 >
                     {this.props.children}
