@@ -9,13 +9,13 @@ const App: React.FC<any> = () => {
         weirdRule: {
             rule() {
                 return {
-                    test(fieldValue) {
+                    test(fieldValue: string) {
                         return fieldValue === 'weird'
                     }
                 }
             },
-            formatter(id) {
-                return `${id} can have only one value: weird`
+            formatter(name: string) {
+                return `${name} can have only one value: weird`
             }
         }
     }
@@ -25,13 +25,17 @@ const App: React.FC<any> = () => {
             <GlobalStyles />
             <h2>Our Form</h2>
             <hr />
-            <Form>
+            <Form
+                onFinish={(values) => console.log(values)}
+                onError={(err) => console.log(err)}
+            >
                 <Input
-                    id="email"
+                    name="email"
                     customRules={customRules}
                     validate="weirdRule"
                 />
-                <Input id="userName" validate="numeric" />
+                <Input name="userName" validate="required|numeric" />
+                <button type="submit">submit</button>
             </Form>
         </div>
     )

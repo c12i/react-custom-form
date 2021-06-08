@@ -2,28 +2,29 @@ import * as React from 'react'
 
 import { FormContext } from './Form'
 
-const Input = (props: any) => {
-    const { id } = props
-    const { fields, errors, setField, addField, validateField } =
+interface ICustomInputProps extends React.AllHTMLAttributes<HTMLInputElement> {
+    customRules?: Record<string, any>
+    validate?: string
+}
+
+const Input: React.FC<ICustomInputProps> = ({ customRules, ...rest }) => {
+    const { name } = rest
+    const { fields, setField, addField, validateField } =
         React.useContext(FormContext)
 
-    const field = fields[id] || {}
-    const fieldError = errors[id] || {}
-
-    console.log(fieldError)
-
+    const field = fields[name] ?? {}
     const { value = '' } = field
 
     React.useEffect(() => {
         addField({
-            field: { ...props },
+            field: { ...rest, customRules: { ...customRules } },
             value: ''
         })
     }, [])
 
     React.useEffect(() => {
         if (field.value !== undefined) {
-            validateField(id)
+            validateField(name)
         }
     }, [value])
 
@@ -32,6 +33,7 @@ const Input = (props: any) => {
             type="text"
             value={field && value}
             onChange={(event) => setField(event, field)}
+            {...rest}
         />
     )
 }

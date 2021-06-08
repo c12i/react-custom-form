@@ -7,7 +7,7 @@ interface IFormContext {
     errors: any
     setField?: (event: React.FormEvent, metadata: any) => void
     addField?: (data: any) => void
-    validateField?: (id: string) => void
+    validateField?: (name: string) => void
 }
 
 interface IFormState {
@@ -15,24 +15,27 @@ interface IFormState {
     errors: any
 }
 
+interface IFormProps {
+    onFinish: (values: any) => void
+    onError: (err: any) => void
+}
+
 export const FormContext: React.Context<IFormContext> = React.createContext({
     fields: {},
     errors: {}
 })
 
-class Form extends React.Component {
+class Form extends React.Component<IFormProps> {
     public state: IFormState = {
         fields: {},
         errors: {}
     }
 
-    public setField = (event: React.ChangeEvent, { id, value }) => {
+    public setField = (event: React.ChangeEvent, { name, value }) => {
         event.persist()
 
-        console.log('add/update field value!')
-
         const { fields } = this.state
-        const field = fields[id]
+        const field = fields[name]
 
         this.addField({
             field: {
@@ -44,30 +47,30 @@ class Form extends React.Component {
     }
 
     public addField = ({ field }) => {
-        const { id } = field
+        const { name } = field
 
         field = {
             value: '',
             ...field
         }
 
-        if (id) {
+        if (name) {
             this.setState((prevState: IFormState) => {
                 return {
                     ...prevState,
                     fields: {
                         ...prevState.fields,
-                        [id]: field
+                        [name]: field
                     }
                 }
             })
             return
         }
 
-        throw new Error(`please add 'id' field to the input: ${field}`)
+        throw new Error(`please add 'name' field to the input: ${field}`)
     }
 
-    public validateField = (id: string) => {
+    public validateField = (name: string) => {
         let error = ''
 
         const {
@@ -75,7 +78,7 @@ class Form extends React.Component {
             validate,
             displayName,
             customRules = {}
-        } = this.state.fields[id]
+        } = this.state.fields[name]
         const rules = validate ? validate.split('|') : ''
 
         if (rules.length) {
@@ -89,7 +92,7 @@ class Form extends React.Component {
 
                 if (!isRuleSatisfied) {
                     error = validation.formatter.apply(null, [
-                        displayName || id
+                        displayName || name
                     ])
                 }
 
@@ -102,7 +105,7 @@ class Form extends React.Component {
                 ...prevState,
                 errors: {
                     ...prevState.errors,
-                    [id]: error
+                    [name]: error
                 }
             }))
         }
@@ -119,12 +122,28 @@ class Form extends React.Component {
             validateField: this.validateField
         }
 
+        const values = Object.entries(fields).reduce((acc: any, curr: any) => {
+            acc = { ...acc, [curr[0]]: curr[1].value }
+            return acc
+        }, {})
+
+        const fieldErrors = Object.values(errors).some((val) => val !== '')
+
         return (
-            <form action="">
-                <FormContext.Provider value={formContext}>
+            <FormContext.Provider value={formContext}>
+                <form
+                    onSubmit={(event) => {
+                        event.preventDefault()
+                        if (fieldErrors) {
+                            this.props.onError(errors)
+                            return
+                        }
+                        this.props.onFinish(values)
+                    }}
+                >
                     {this.props.children}
-                </FormContext.Provider>
-            </form>
+                </form>
+            </FormContext.Provider>
         )
     }
 }
