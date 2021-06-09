@@ -1,5 +1,5 @@
 {
-    "name": "custom-form",
+    "name": "react-custom-form",
     "version": "1.0.0",
     "description": "Custom Form and Input components",
     "main": "index.tsx",
@@ -16,14 +16,14 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/collinsmuriuki/custom-form.git"
+        "url": "git+ssh://git@github.com/collinsmuriuki/react-custom-form.git"
     },
     "author": "collinsmuriuki",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/collinsmuriuki/custom-form/issues"
+        "url": "https://github.com/collinsmuriuki/react-custom-form/issues"
     },
-    "homepage": "https://github.com/collinsmuriuki/custom-form#readme",
+    "homepage": "https://github.com/collinsmuriuki/react-custom-form#readme",
     "devDependencies": {
         "@types/parcel-env": "^0.0.0",
         "@types/react": "^17.0.9",
