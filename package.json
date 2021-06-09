@@ -2,7 +2,7 @@
     "name": "react-custom-form",
     "version": "1.0.0",
     "description": "Custom Form and Input components",
-    "main": "index.tsx",
+    "main": "lib/index.ts",
     "scripts": {
         "dev": "parcel src/index.html",
         "build": "parcel build src/index.html --public-url ./",
