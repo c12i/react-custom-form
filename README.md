@@ -3,6 +3,9 @@
 This is a very simple set of react `Form` and `Input` components.
 The components provide a developer friendly API to get you up an running with your form with minimal set up.
 
+**demo**
+https://collinsmuriuki.github.io/react-custom-form/
+
 ## Features
 
 -   Custom `Form` component
@@ -11,7 +14,7 @@ The components provide a developer friendly API to get you up an running with yo
 
 ## Demo
 
-Below is a code snippet on how to use the components. You can also check out the [live demo](https://collinsmuriuki.github.io/custom-form/) to try it out.
+Below is a code snippet on how to use the components.
 
 ```javascript
 import { Form, Input } from './components'
