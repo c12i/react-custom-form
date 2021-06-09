@@ -3,8 +3,7 @@
 This is a very simple set of react `Form` and `Input` components.
 The components provide a developer friendly API to get you up an running with your form with minimal set up.
 
-**demo**
-https://collinsmuriuki.github.io/react-custom-form/
+✨ [Live demo](https://collinsmuriuki.github.io/react-custom-form/)
 
 ## Features
 
@@ -33,7 +32,7 @@ const App = () => {
         <Form onFinish={(values) => alert(JSON.stringify(values))}>
             <Input
                 name="username"
-                customRules={customRules}
+                validationRules={customRules}
                 validate="wooga|required"
                 placeholder="Enter your username*"
             />
