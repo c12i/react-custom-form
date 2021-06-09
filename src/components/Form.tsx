@@ -95,10 +95,13 @@ class Form extends React.Component<IFormProps> {
     }
 
     private getFieldValues = () => {
-        return Object.entries(this.state.fields).reduce((acc, curr) => {
-            acc = { ...acc, [curr[0]]: curr[1].value }
-            return acc
-        }, {})
+        return Object.entries(this.state.fields).reduce(
+            (acc, [name, { value }]) => {
+                acc = { ...acc, [name]: value }
+                return acc
+            },
+            {}
+        )
     }
 
     render() {
