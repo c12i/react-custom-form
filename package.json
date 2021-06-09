@@ -7,8 +7,8 @@
         "dev": "parcel src/index.html",
         "build": "parcel build src/index.html --public-url ./",
         "test": "test",
-        "lint": "eslint \"src/**/*.tsx\" --fix",
-        "format": "prettier --write \"src/**/*.tsx\""
+        "lint": "eslint \"src/**/*.tsx\"  \"src/**/*.ts\" --fix",
+        "format": "prettier --write \"src/**/*.tsx\"  \"src/**/*.ts\""
     },
     "pre-commit": [
         "lint",
