@@ -1,9 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import { Form, Input } from './components'
 import GlobalStyles from './components/GlobalStyles'
-import Form from './components/Form'
-import Input from './components/Input'
 
 const Layout = styled.div`
     h2 {
@@ -65,7 +64,7 @@ const App: React.FC<any> = () => {
             >
                 <Input
                     name="username"
-                    customRules={customRules}
+                    validationRules={customRules}
                     validate="wooga|required"
                     placeholder="Enter your username*"
                 />

@@ -11,7 +11,7 @@ export interface ValidationRules {
 
 export interface ICustomInputProps
     extends Omit<React.AllHTMLAttributes<HTMLInputElement>, 'onChange'> {
-    customRules?: ValidationRules
+    validationRules?: ValidationRules
     validate?: string
     displayName?: string
 }

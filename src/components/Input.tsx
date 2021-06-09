@@ -9,7 +9,7 @@ const FormWrapper = styled.div`
     flex-direction: column;
 `
 
-const Input: React.FC<ICustomInputProps> = ({ customRules, ...rest }) => {
+const Input: React.FC<ICustomInputProps> = ({ validationRules, ...rest }) => {
     const { name } = rest
     const { fields, errors, setField, addField, validateField } =
         React.useContext(FormContext)
@@ -19,7 +19,7 @@ const Input: React.FC<ICustomInputProps> = ({ customRules, ...rest }) => {
     const { value = '' } = field
 
     React.useEffect(() => {
-        addField({ ...rest, customRules: { ...customRules } })
+        addField({ ...rest, customRules: { ...validationRules } })
     }, [])
 
     React.useEffect(() => {
