@@ -32196,14 +32196,15 @@ function (_super) {
         Object.keys(_this.getFieldValues()).forEach(function (key) {
           _this.validateField(key);
         });
+        setTimeout(function () {
+          if (_this.getFieldErrors()) {
+            onError(errors);
+            return;
+          }
 
-        if (_this.getFieldErrors()) {
-          onError(errors);
+          onFinish(_this.getFieldValues());
           return;
-        }
-
-        onFinish(_this.getFieldValues());
-        return;
+        }, 100);
       }
     }, this.props.children));
   };
@@ -32427,7 +32428,7 @@ var App = function App() {
   var customRules = {
     wooga: {
       rule: function rule() {
-        return /^wooga\.(\S*)$/;
+        return /^wooga\.(\S)+$/;
       },
       formatter: function formatter(fieldName) {
         return fieldName + " should start with wooga.";
@@ -32436,10 +32437,10 @@ var App = function App() {
   };
   return React.createElement(Layout, null, React.createElement(GlobalStyles_1.default, null), React.createElement("h2", null, "Sample Form"), React.createElement(Form_1.default, {
     onFinish: function onFinish(values) {
-      return console.log(values);
+      return alert(JSON.stringify(values));
     },
     onError: function onError(err) {
-      return console.log(err);
+      return console.error(err);
     }
   }, React.createElement(Input_1.default, {
     name: "username",
@@ -32551,7 +32552,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63315" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55233" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
