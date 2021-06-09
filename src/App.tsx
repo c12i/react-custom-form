@@ -48,7 +48,7 @@ const Layout = styled.div`
 const App: React.FC<any> = () => {
     const customRules = {
         wooga: {
-            rule: () => /^wooga\.(\S*)$/,
+            rule: () => /^wooga\.(\S)+$/,
             formatter(fieldName: string) {
                 return `${fieldName} should start with wooga.`
             }
@@ -60,8 +60,8 @@ const App: React.FC<any> = () => {
             <GlobalStyles />
             <h2>Sample Form</h2>
             <Form
-                onFinish={(values) => console.log(values)}
-                onError={(err) => console.log(err)}
+                onFinish={(values) => alert(JSON.stringify(values))}
+                onError={(err) => console.error(err)}
             >
                 <Input
                     name="username"

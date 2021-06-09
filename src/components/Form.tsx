@@ -95,13 +95,10 @@ class Form extends React.Component<IFormProps> {
     }
 
     private getFieldValues = () => {
-        return Object.entries(this.state.fields).reduce(
-            (acc: any, curr: any) => {
-                acc = { ...acc, [curr[0]]: curr[1].value }
-                return acc
-            },
-            {}
-        )
+        return Object.entries(this.state.fields).reduce((acc, curr) => {
+            acc = { ...acc, [curr[0]]: curr[1].value }
+            return acc
+        }, {})
     }
 
     render() {
@@ -124,12 +121,14 @@ class Form extends React.Component<IFormProps> {
                         Object.keys(this.getFieldValues()).forEach((key) => {
                             this.validateField(key)
                         })
-                        if (this.getFieldErrors()) {
-                            onError(errors)
+                        setTimeout(() => {
+                            if (this.getFieldErrors()) {
+                                onError(errors)
+                                return
+                            }
+                            onFinish(this.getFieldValues())
                             return
-                        }
-                        onFinish(this.getFieldValues())
-                        return
+                        }, 100)
                     }}
                 >
                     {this.props.children}

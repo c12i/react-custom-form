@@ -20,7 +20,7 @@ export interface IFormContext {
 
 export interface IFormState {
     fields: IFormFields
-    errors: Record<string, any>
+    errors: Record<string, string>
 }
 
 export interface IFormProps {
