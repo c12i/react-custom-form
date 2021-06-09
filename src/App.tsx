@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { Form, Input } from './components'
-import GlobalStyles from './components/GlobalStyles'
+import GlobalStyles from './GlobalStyles'
 
 const Layout = styled.div`
     h2 {
