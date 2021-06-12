@@ -93,7 +93,7 @@ React.useEffect(() => {
 }, [value])
 ```
 
-The `onChange` event by making a call to the `setField` context method.
+The `onChange` event is handled by making a call to the `setField` context method.
 Validation is done by handling the `onBlur` event, where we make the call to the `validateField` context method.
 
 Ultimately, we end up having this:
