@@ -9,8 +9,11 @@ const InputWrapper = styled.div`
     flex-direction: column;
 `
 
-const Input: React.FC<ICustomInputProps> = ({ validationRules, ...rest }) => {
-    const { name } = rest
+const Input: React.FC<ICustomInputProps> = ({
+    validationRules,
+    name,
+    ...rest
+}) => {
     const { fields, errors, setField, addField, validateField } =
         React.useContext(FormContext)
 
@@ -18,7 +21,7 @@ const Input: React.FC<ICustomInputProps> = ({ validationRules, ...rest }) => {
     const { value = '' } = field
 
     React.useEffect(() => {
-        addField({ ...rest, customRules: { ...validationRules } })
+        addField({ name, ...rest, customRules: { ...validationRules } })
     }, [])
 
     React.useEffect(() => {
@@ -31,6 +34,7 @@ const Input: React.FC<ICustomInputProps> = ({ validationRules, ...rest }) => {
         <InputWrapper>
             <input
                 type="text"
+                name={name}
                 value={field && value}
                 onChange={(event) => setField(event, field)}
                 onBlur={() => validateField(name)}
