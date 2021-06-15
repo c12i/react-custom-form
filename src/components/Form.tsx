@@ -22,8 +22,7 @@ class Form extends React.Component<IFormProps> {
 
         this.addField({
             ...field,
-            // @ts-ignore - sorry TypeScript Gods
-            value: event ? event.currentTarget.value : value
+            value: event ? event.currentTarget['value'] : value
         })
     }
 
